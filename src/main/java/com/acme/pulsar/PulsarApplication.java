@@ -1,19 +1,17 @@
 package com.acme.pulsar;
 
-import org.apache.pulsar.client.api.PulsarClientException;
-import org.apache.pulsar.client.api.Schema;
-import org.apache.pulsar.common.schema.SchemaType;
+import org.apache.pulsar.reactive.client.api.MessageSpec;
+import reactor.core.publisher.Mono;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.pulsar.annotation.PulsarListener;
-import org.springframework.pulsar.core.PulsarTemplate;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.context.annotation.Bean;
+import org.springframework.pulsar.reactive.config.annotation.ReactivePulsarListener;
+import org.springframework.pulsar.reactive.core.ReactivePulsarTemplate;
 
 @SpringBootApplication
-@EnableScheduling
 public class PulsarApplication {
 
 	public static void main(String[] args) {
@@ -21,20 +19,26 @@ public class PulsarApplication {
 	}
 
 	@Autowired
-	private PulsarTemplate<User> userTemplate;
+	private ReactivePulsarTemplate<User> userTemplate;
 
 	@Autowired
 	private UserService userService;
 
-	@Scheduled(initialDelay = 2_000, fixedDelay = 1_000)
-	void sourceUserIntoPulsarTopic() throws PulsarClientException {
-		var msgId = userTemplate.send(userService.singleUser());
-		System.out.println("*** PRODUCE: " + msgId);
+	@Bean
+	ApplicationRunner sourceUsersIntoPulsarTopic() {
+		return (args) -> {
+			userService.multipleUsers()
+					.map(MessageSpec::of)
+					.as(userTemplate::send)
+					.doOnNext((sendResult) -> System.out.println("*** PRODUCE: " + sendResult.getMessageId()))
+					.subscribe();
+		};
 	}
 
-	@PulsarListener
-	void logUserFromPulsarTopic(User user) {
+	@ReactivePulsarListener
+	Mono<Void> logUsersFromPulsarTopic(User user) {
 		System.out.println("*** CONSUME: " + user);
+		return Mono.empty();
 	}
 
 	public record User(String uid, String username) {

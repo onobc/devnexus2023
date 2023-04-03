@@ -13,9 +13,11 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.pulsar:spring-pulsar-reactive-spring-boot-starter:0.2.0'
 	implementation 'org.springframework.pulsar:spring-pulsar-spring-boot-starter:0.2.0'
 	implementation 'org.springframework.boot:spring-boot-starter-json'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
 }
 
 tasks.named('test') {

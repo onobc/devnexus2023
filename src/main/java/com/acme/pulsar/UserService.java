@@ -4,11 +4,14 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import com.acme.pulsar.PulsarApplication.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,12 @@ public class UserService {
 
 	User singleUser() {
 		return singleUserAsync().join();
+	}
+
+	Flux<User> multipleUsers() {
+		return Mono.fromFuture(this.singleUserAsync())
+				.delaySubscription(Duration.ofSeconds(1))
+				.repeat();
 	}
 
 	private CompletableFuture<User> singleUserAsync() {
