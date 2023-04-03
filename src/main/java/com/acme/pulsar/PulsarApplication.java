@@ -28,11 +28,11 @@ public class PulsarApplication {
 
 	@Scheduled(initialDelay = 2_000, fixedDelay = 1_000)
 	void sourceUserIntoPulsarTopic() throws PulsarClientException {
-		var msgId = userTemplate.send("user-topic", userService.singleUser(), Schema.JSON(User.class));
+		var msgId = userTemplate.send(userService.singleUser());
 		System.out.println("*** PRODUCE: " + msgId);
 	}
 
-	@PulsarListener(topics = "user-topic", schemaType = SchemaType.JSON)
+	@PulsarListener
 	void logUserFromPulsarTopic(User user) {
 		System.out.println("*** CONSUME: " + user);
 	}

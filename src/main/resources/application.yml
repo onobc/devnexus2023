@@ -1,0 +1,11 @@
+spring:
+  pulsar:
+    defaults:
+      type-mappings:
+        - message-type: com.acme.pulsar.PulsarApplication.User
+          topic-name: user-topic
+
+logging.level:
+  root: WARN
+  com.acme: INFO
+  org.springframework.pulsar: INFO
