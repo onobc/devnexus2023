@@ -1,11 +1,32 @@
+logging.level:
+  root: WARN
+  com.acme: INFO
+  org.springframework.pulsar: INFO
+
 spring:
   pulsar:
     defaults:
       type-mappings:
         - message-type: com.acme.pulsar.PulsarApplication.User
           topic-name: user-topic
-
-logging.level:
-  root: WARN
-  com.acme: INFO
-  org.springframework.pulsar: INFO
+  cloud:
+    function:
+      definition: registerUser
+    stream:
+      bindings:
+        registerUser-in-0:
+          destination: user-topic
+          consumer:
+            use-native-decoding: true
+        registerUser-out-0:
+          destination: reg-user-topic
+          producer:
+            use-native-encoding: true
+      pulsar:
+        bindings:
+          registerUser-in-0:
+            consumer:
+              message-type: com.acme.pulsar.PulsarApplication.User
+          registerUser-out-0:
+            producer:
+              message-type: com.acme.pulsar.PulsarApplication.RegisteredUser

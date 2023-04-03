@@ -1,5 +1,8 @@
 package com.acme.pulsar;
 
+import java.util.Random;
+import java.util.function.Function;
+
 import org.apache.pulsar.client.api.Message;
 import org.apache.pulsar.reactive.client.api.MessageResult;
 import org.apache.pulsar.reactive.client.api.MessageSpec;
@@ -37,13 +40,29 @@ public class PulsarApplication {
 		};
 	}
 
-	@ReactivePulsarListener(stream = true)
-	Flux<MessageResult<Void>> logUsersFromPulsarTopic(Flux<Message<User>> users) {
+	@Bean
+	Function<User, RegisteredUser> registerUser() {
+		var rand = new Random();
+		return (user) -> new RegisteredUser(user, Tier.values()[rand.nextInt(Tier.values().length)]);
+	}
+
+	@ReactivePulsarListener(topics = "reg-user-topic", stream = true)
+	Flux<MessageResult<Void>> logUsersFromPulsarTopic(Flux<Message<RegisteredUser>> users) {
 		return users.doOnNext((user) -> System.out.println("*** CONSUME: " + user.getValue()))
 				.map(MessageResult::acknowledge);
 	}
 
 	public record User(String uid, String username) {
 
+	}
+
+	public record RegisteredUser(User user, Tier tier) {
+
+	}
+
+	public enum Tier {
+		FREE,
+		BASIC,
+		ENTERPRISE
 	}
 }
