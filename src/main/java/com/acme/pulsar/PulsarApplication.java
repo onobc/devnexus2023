@@ -1,7 +1,9 @@
 package com.acme.pulsar;
 
+import org.apache.pulsar.client.api.Message;
+import org.apache.pulsar.reactive.client.api.MessageResult;
 import org.apache.pulsar.reactive.client.api.MessageSpec;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
@@ -35,10 +37,10 @@ public class PulsarApplication {
 		};
 	}
 
-	@ReactivePulsarListener
-	Mono<Void> logUsersFromPulsarTopic(User user) {
-		System.out.println("*** CONSUME: " + user);
-		return Mono.empty();
+	@ReactivePulsarListener(stream = true)
+	Flux<MessageResult<Void>> logUsersFromPulsarTopic(Flux<Message<User>> users) {
+		return users.doOnNext((user) -> System.out.println("*** CONSUME: " + user.getValue()))
+				.map(MessageResult::acknowledge);
 	}
 
 	public record User(String uid, String username) {
