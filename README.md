@@ -17,4 +17,22 @@ This demo was used in the following:
 - Pulsar Summit 2023 [Introducing Spring for Apache Pulsar](https://pulsar-summit.org/event/europe-2023/sessions/europe-2023-introducing-spring-for-apache-pulsar)
 
 
+### GraalVM Native Image
+#### Native Build Tools
+To build a native image using the GraalVM native build tools, follow [these pre-requisites](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#native-image.developing-your-first-application.native-build-tools) 
+to install GraalVM on your machine, but choose `22.3.1.r17-grl` as the version.
 
+> **_WARNING:_**  If you don't choose `22.3.1.r17-grl` as the version you will run into `Fatal error: java.lang.TypeNotPresentException: Type com.google.protobuf.GeneratedMessageV3 not present` when compiling.
+
+Compile the demo into a GraalVM native image with:
+```shell
+./gradlew nativeCompile
+```
+Then you can run the native image with:
+```shell
+./build/native/nativeCompile/intro-spring-pulsar-demo
+```
+You will see a huge improvement in startup time.
+
+#### Paketo Buildpacks
+If you prefer, you can instead use Paketo buildpacks to build the image by following [these steps](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#native-image.developing-your-first-application.buildpacks).
