@@ -13,9 +13,8 @@ There is a commit for each of the above steps.
 
 ### Appears In
 This demo was used in the following:
-- DevNexus 2023 for [Introducing Spring for Apache Pulsar](https://devnexus.com/presentations/introducing-spring-for-apache-pulsar/)
-- Pulsar Summit 2023 [Introducing Spring for Apache Pulsar](https://pulsar-summit.org/event/europe-2023/sessions/europe-2023-introducing-spring-for-apache-pulsar)
-
+- DevNexus 2023 for [Introducing Spring for Apache Pulsar](https://devnexus.com/archive/devnexus2023/presentations/introducing-spring-for-apache-pulsar/) ([video](https://youtu.be/J4wqiooLi6s?si=7vNmCqUZAzudvi9t))
+- Pulsar Summit 2023 [Introducing Spring for Apache Pulsar](https://pulsar-summit.org/event/europe-2023/sessions/europe-2023-introducing-spring-for-apache-pulsar) ([video](https://youtu.be/ltDpip8s6Uk?si=OMawoPyEDcib54k3))
 
 ### GraalVM Native Image
 #### Native Build Tools
