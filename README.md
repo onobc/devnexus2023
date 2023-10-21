@@ -19,9 +19,9 @@ This demo was used in the following:
 ### GraalVM Native Image
 #### Native Build Tools
 To build a native image using the GraalVM native build tools, follow [these pre-requisites](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#native-image.developing-your-first-application.native-build-tools) 
-to install GraalVM on your machine, but choose `22.3.1.r17-grl` as the version.
+to install GraalVM on your machine, but choose `22.3.3.r17-grl` as the version.
 
-> **_WARNING:_**  If you don't choose `22.3.1.r17-grl` as the version you will run into `Fatal error: java.lang.TypeNotPresentException: Type com.google.protobuf.GeneratedMessageV3 not present` when compiling.
+> **_WARNING:_**  If you don't choose `22.3.3.r17-grl` as the version you will likely run into issues when building.
 
 Compile the demo into a GraalVM native image with:
 ```shell
