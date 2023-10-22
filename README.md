@@ -16,6 +16,25 @@ This demo was used in the following:
 - DevNexus 2023 for [Introducing Spring for Apache Pulsar](https://devnexus.com/archive/devnexus2023/presentations/introducing-spring-for-apache-pulsar/) ([video](https://youtu.be/J4wqiooLi6s?si=7vNmCqUZAzudvi9t))
 - Pulsar Summit 2023 (EU Virtual) [Introducing Spring for Apache Pulsar](https://pulsar-summit.org/event/europe-2023/sessions/europe-2023-introducing-spring-for-apache-pulsar) ([video](https://youtu.be/ltDpip8s6Uk?si=OMawoPyEDcib54k3))
 - Pulsar Summit 2023 (North America) [Introducing Spring for Apache Pulsar](https://pulsar-summit.org/event/north-america-2023/sessions/north-america-2023-introducing-spring-for-apache-pulsar)
+
+### Building
+To build the application execute the following command:
+```shell
+./gradlew build
+```
+### Running
+> **_NOTE:_**  Be sure you have an Apache Pulsar standalone cluster available at `pulsar://localhost:6650`
+
+#### IDE
+To run the app in your IDE just choose `Run/Debug` on the `PulsarApplication` class.
+
+#### Command Line
+To run the app on the command line open a terminal and execute the following command:
+```shell
+./gradlew bootRun
+```
+> **_TIP:_**  When running on the command line the `add-opens` JVM args are automatically configured which prevents annoying exceptions at runtime.
+
 ### GraalVM Native Image
 #### Native Build Tools
 To build a native image using the GraalVM native build tools, follow [these pre-requisites](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#native-image.developing-your-first-application.native-build-tools) 

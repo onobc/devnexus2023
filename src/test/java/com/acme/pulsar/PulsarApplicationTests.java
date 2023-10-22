@@ -1,7 +1,6 @@
 package com.acme.pulsar;
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
